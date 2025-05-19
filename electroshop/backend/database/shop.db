@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS Users (
 )
 ''')
 
-# Таблица категорий товаров
 c.execute('''
 CREATE TABLE IF NOT EXISTS Categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
