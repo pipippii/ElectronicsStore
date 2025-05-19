@@ -1,0 +1,31 @@
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Вход</title></head>
+<body>
+  <h2>Вход</h2>
+  <form id="login-form">
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="password" name="password" placeholder="Пароль" required><br>
+    <button type="submit">Войти</button>
+  </form>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      const data = Object.fromEntries(form);
+
+      const res = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (result.token) {
+        localStorage.setItem('token', result.token);
+        alert('Успешный вход');
+      } else {
+        alert(result.error);
+      }
+    });
+  </script>
+</body>
+</html>

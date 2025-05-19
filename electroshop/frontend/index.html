@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Магазин</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <h1>Электроника</h1>
+    <div id="products"></div>
+
+    <script src="static/script.js"></script>
+
+    <form id="image-search-form" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Поиск по изображению</button>
+      </form>
+      
+      <select id="price-filter">
+        <option value="">Все цены</option>
+        <option value="0-500">До 500</option>
+        <option value="500-1000">500 - 1000</option>
+        <option value="1000+">От 1000</option>
+      </select>
+      
+      <div id="search-results"></div>
+      
+      <script>
+      document.getElementById('image-search-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const response = await fetch('http://localhost:5000/api/image-search', {
+          method: 'POST',
+          body: formData
+        });
+        const results = await response.json();
+        renderResults(results);
+      });
+      
+      function renderResults(results) {
+        const container = document.getElementById('search-results');
+        container.innerHTML = '';
+        results.forEach(product => {
+          container.innerHTML += `<div><h3>${product.name}</h3><img src="${product.image_url}" width="100"></div>`;
+        });
+      }
+      
+      document.getElementById('price-filter').addEventListener('change', async (e) => {
+        const range = e.target.value;
+        const response = await fetch(`http://localhost:5000/api/filter?price=${range}`);
+        const data = await response.json();
+        renderResults(data);
+      });
+      </script>
+</body>
+</html>

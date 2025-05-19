@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Товар</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div id="product-container"></div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        fetch(`http://localhost:5000/api/product/${id}`)
+            .then(res => res.json())
+            .then(product => {
+                const container = document.getElementById('product-container');
+                container.innerHTML = `
+                    <h1>${product.name}</h1>
+                    <p>${product.price} ₽</p>
+                    <p>${product.description}</p>
+                `;
+            });
+    </script>
+</body>
+</html>

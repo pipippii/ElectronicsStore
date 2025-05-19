@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Корзина</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <h1>Корзина</h1>
+    <ul id="cart-items"></ul>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const list = document.getElementById('cart-items');
+
+        cart.forEach(product => {
+            const li = document.createElement('li');
+            li.textContent = `${product.name} — ${product.price} ₽`;
+            list.appendChild(li);
+        });
+    </script>
+</body>
+</html>
